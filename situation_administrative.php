@@ -55,41 +55,7 @@ $result = $conn->query($sql);
             color: white;
             line-height: 1.6;
         }
-        
-        /* En-tête avec effet de verre */
-        .header {
-            background-color: rgba(13, 94, 33, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 30px;
-            display: flex;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-        }
-        
-        .logo {
-            font-size: 32px;
-            margin-right: 20px;
-            animation: pulse 2s infinite alternate;
-        }
-        
-        @keyframes pulse {
-            from { opacity: 0.8; transform: scale(1); }
-            to { opacity: 1; transform: scale(1.1); }
-        }
-        
-        .site-title {
-            font-size: 26px;
-            font-weight: 600;
-            margin: 0;
-            background: linear-gradient(45deg, #fff, #a3ffb8);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-        
+      
         /* Conteneur principal avec effet de profondeur */
         .main-container {
             max-width: 1300px;
@@ -306,22 +272,7 @@ $result = $conn->query($sql);
             margin-bottom: 30px;
         }
         
-        /* Pied de page */
-        .footer {
-            background-color: #0d0d0d;
-            text-align: center;
-            padding: 30px;
-            color: #888;
-            border-top: 1px solid #333;
-            margin-top: 60px;
-            font-size: 14px;
-            letter-spacing: 0.5px;
-        }
-        
-        .footer span {
-            color: #2ecc71;
-        }
-        
+       
         /* Responsive */
         @media (max-width: 1200px) {
             .main-container {
@@ -388,10 +339,194 @@ $result = $conn->query($sql);
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="logo">🏛️</div>
-        <h1 class="site-title">Conseil Provincial d'Ifrane</h1>
-    </header>
+    <!-- Ajout du CSS pour le menu de navigation -->
+<style>
+    /* Style pour l'icône de navigation */
+    .nav-icon {
+        position: fixed;
+        top: 100px;
+        right: 30px;
+        background-color: #2ecc71;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-size: 24px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-icon:hover {
+        transform: scale(1.1);
+        background-color: #219653;
+    }
+    
+    /* Style pour le menu de navigation */
+    .nav-menu {
+        position: fixed;
+        top: 160px;
+        right: 30px;
+        background-color: #1a1a1a;
+        border: 1px solid #29802f;
+        border-radius: 10px;
+        width: 280px;
+        max-height: 400px;
+        overflow-y: auto;
+        box-shadow: 0 5px 15px rgba(0, 255, 108, 0.2);
+        z-index: 999;
+        display: none;
+        padding: 15px;
+    }
+    
+    .nav-menu-title {
+        color: #2ecc71;
+        text-align: center;
+        margin-bottom: 15px;
+        font-weight: 600;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #29802f;
+    }
+    
+    .nav-links {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .nav-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        transition: all 0.3s;
+    }
+    
+    .nav-link:hover {
+        background-color: #2a2a2a;
+        transform: translateX(5px);
+    }
+    
+    .nav-link-icon {
+        margin-right: 10px;
+        font-size: 20px;
+        color: #2ecc71;
+        width: 25px;
+        text-align: center;
+    }
+    
+    .nav-link-text {
+        font-size: 14px;
+    }
+
+    /* Animation pour l'apparition du menu */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .nav-menu.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+
+    /* Style pour le bouton de fermeture du menu */
+    .close-menu {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #aaa;
+        font-size: 18px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    
+    .close-menu:hover {
+        color: #2ecc71;
+    }
+</style>
+
+<!-- HTML pour l'icône et le menu de navigation -->
+<div class="nav-icon" id="navToggle">
+    <i>≡</i>
+</div>
+
+<div class="nav-menu" id="navMenu">
+    <div class="close-menu" id="closeMenu">×</div>
+    <h3 class="nav-menu-title">Navigation </h3>
+    <div class="nav-links">
+        <a href="situation_personnelle.php" class="nav-link">
+            <span class="nav-link-icon">👤</span>
+            <span class="nav-link-text">Situation Personnelle</span>
+        </a>
+        <a href="situation_administrative.php" class="nav-link">
+            <span class="nav-link-icon">📋</span>
+            <span class="nav-link-text">Situation Administrative</span>
+        </a>
+        <a href="avancement_grade.php" class="nav-link">
+            <span class="nav-link-icon">📈</span>
+            <span class="nav-link-text">Avancement de Grade</span>
+        </a>
+        <a href="position_fonctionnaire.php" class="nav-link">
+            <span class="nav-link-icon">🔄</span>
+            <span class="nav-link-text">Position des Fonctionnaires</span>
+        </a>
+        <a href="maladie.php" class="nav-link">
+            <span class="nav-link-icon">🏥</span>
+            <span class="nav-link-text">Maladie</span>
+        </a>
+        <a href="conge_permission.php" class="nav-link">
+            <span class="nav-link-icon">🏖️</span>
+            <span class="nav-link-text">Congé et Permission</span>
+        </a>
+        <a href="sanction_disciplinaire.php" class="nav-link">
+            <span class="nav-link-icon">⚖️</span>
+            <span class="nav-link-text">Sanction Disciplinaire</span>
+        </a>
+        <a href="mouvement_personnel.php" class="nav-link">
+            <span class="nav-link-icon">🔃</span>
+            <span class="nav-link-text">Mouvement du Personnel</span>
+        </a>
+        <a href="ressources_humaines.php" class="nav-link">
+            <span class="nav-link-icon">🏠</span>
+            <span class="nav-link-text">Page RH principale</span>
+        </a>
+    </div>
+</div>
+
+<!-- JavaScript pour le fonctionnement du menu -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        const closeMenu = document.getElementById('closeMenu');
+        
+        // Fonction pour ouvrir/fermer le menu
+        navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Fermer le menu en cliquant sur le X
+        closeMenu.addEventListener('click', function() {
+            navMenu.classList.remove('active');
+        });
+        
+        // Fermer le menu en cliquant en dehors
+        document.addEventListener('click', function(event) {
+            if (!navMenu.contains(event.target) && event.target !== navToggle) {
+                navMenu.classList.remove('active');
+            }
+        });
+    });
+</script>
+<?php
+    include('header.php')?>
     
     <div class="main-container">
         <h1 class="page-title">Situation Administrative des Fonctionnaires</h1>
@@ -472,9 +607,8 @@ $result = $conn->query($sql);
         </div>
     </div>
     
-    <footer class="footer">
-        <p>&copy; <?= date('Y') ?> <span>Conseil Provincial d'Ifrane</span> - Tous droits réservés</p>
-    </footer>
+    <?php
+    include('footer.php')?>
 </body>
 </html>
 <?php
